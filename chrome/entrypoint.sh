@@ -4,6 +4,8 @@ if [ "$(ls -A /home/chrome/.fonts/)" ]; then
   fc-cache -f -v
 fi
 
+RD_PORT="${RD_PORT:=9222}"
+
 ip=$(hostname --ip-address)
 socat tcp-listen:$RD_PORT,bind="$ip",fork tcp:127.0.0.1:$RD_PORT &
 
@@ -45,7 +47,7 @@ socat tcp-listen:$RD_PORT,bind="$ip",fork tcp:127.0.0.1:$RD_PORT &
   --start-maximized \
   --password-store=basic \
   --use-mock-keychain \
-  --disable-features=Translate,AcceptCHFrame,MediaRouter,OptimizationHints,ImprovedCookieControls \
+  --disable-features=Translate,AcceptCHFrame,MediaRouter,OptimizationHints,ProcessPerSiteUpToMainFrameThreshold,ImprovedCookieControls \
   --enable-features=NetworkServiceInProcess2 \
   --hide-scrollbars \
   --ignore-certificate-errors \
