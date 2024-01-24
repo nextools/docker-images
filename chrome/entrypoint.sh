@@ -14,6 +14,7 @@ socat tcp-listen:$RD_PORT,bind="$ip",fork tcp:127.0.0.1:$RD_PORT &
   --silent-debugger-extension-api \
   --allow-pre-commit-input \
   --ash-no-nudges \
+  --disable-gpu-process-crash-limit \
   --disable-background-networking \
   --disable-background-timer-throttling \
   --disable-backgrounding-occluded-windows \
@@ -53,6 +54,7 @@ socat tcp-listen:$RD_PORT,bind="$ip",fork tcp:127.0.0.1:$RD_PORT &
   --ignore-certificate-errors \
   --ignore-certificate-errors-spki-list \
   --ignore-ssl-errors \
+  --ignore-unknown-auth-factors \
   --metrics-recording-only \
   --mute-audio \
   --no-first-run \
