@@ -1,17 +1,23 @@
 #!/bin/sh
-#!/bin/sh
 
-socat tcp-listen:9222,bind="$(hostname --ip-address)",fork tcp:127.0.0.1:9222 &
+if [ "$(ls -A /home/chrome/.fonts/)" ]; then
+  fc-cache -f -v
+fi
 
-google-chrome-stable \
+ip=$(hostname --ip-address)
+socat tcp-listen:$RD_PORT,bind="$ip",fork tcp:127.0.0.1:$RD_PORT &
+
+(ulimit -n 65000 || true) && (ulimit -p 65000 || true) && exec google-chrome-stable \
+  --enable-automation \
+  --silent-debugger-extension-api \
   --allow-pre-commit-input \
+  --ash-no-nudges \
   --disable-background-networking \
   --disable-background-timer-throttling \
   --disable-backgrounding-occluded-windows \
+  --disable-renderer-backgrounding \
   --disable-breakpad \
   --disable-client-side-phishing-detection \
-  --disable-component-extensions-with-background-pages \
-  --disable-component-update \
   --disable-setuid-sandbox \
   --disable-default-apps \
   --disable-speech-api \
@@ -20,38 +26,39 @@ google-chrome-stable \
   --disable-notifications \
   --disable-extensions \
   --disable-field-trial-config \
-  --disable-hang-monitor \
-  --disable-infobars \
-  --disable-ipc-flooding-protection \
   --disable-popup-blocking \
   --disable-prompt-on-repost \
-  --disable-renderer-backgrounding \
   --disable-search-engine-choice-screen \
   --disable-offer-store-unmasked-wallet-cards \
   --disable-sync \
+  --disable-component-extensions-with-background-pages \
+  --deny-permission-prompts \
   --disable-print-preview \
   --noerrdialogs \
-  --enable-automation \
+  --disable-hang-monitor \
+  --disable-ipc-flooding-protection \
+  --disable-component-update \
+  --headless=new \
   --export-tagged-pdf \
   --force-color-profile=srgb \
-  --metrics-recording-only \
-  --no-first-run \
-  --no-default-browser-check \
-  --no-sandbox \
   --no-zygote \
   --start-maximized \
   --password-store=basic \
   --use-mock-keychain \
-  --window-size=1980,1080 \
-  --disable-features=Translate,AcceptCHFrame,MediaRouter,OptimizationHints,ProcessPerSiteUpToMainFrameThreshold \
+  --disable-features=Translate,AcceptCHFrame,MediaRouter,OptimizationHints,ImprovedCookieControls \
   --enable-features=NetworkServiceInProcess2 \
-  --user-data-dir=/home/chrome/ \
-  --headless=new \
   --hide-scrollbars \
-  --mute-audio \
   --ignore-certificate-errors \
   --ignore-certificate-errors-spki-list \
   --ignore-ssl-errors \
+  --metrics-recording-only \
+  --mute-audio \
+  --no-first-run \
+  --no-sandbox \
+  --no-default-browser-check \
   --remote-debugging-address=0.0.0.0 \
-  --remote-debugging-port=9222
-  about:blank
+  --remote-debugging-port="$RD_PORT" \
+  --user-data-dir=/home/chrome/ \
+  --window-size=1920,1080 \
+  --window-position=0,0 \
+  "$@"
