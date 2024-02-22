@@ -6,6 +6,9 @@ fi
 
 RD_PORT="${RD_PORT:=9222}"
 
+ip=$(hostname --ip-address)
+socat tcp-listen:$RD_PORT,bind="$ip",fork tcp:127.0.0.1:$RD_PORT &
+
 (ulimit -n 65000 || true) && (ulimit -p 65000 || true) && exec google-chrome-stable \
   --enable-automation \
   --silent-debugger-extension-api \
@@ -57,7 +60,7 @@ RD_PORT="${RD_PORT:=9222}"
   --no-first-run \
   --no-sandbox \
   --no-default-browser-check \
-  --remote-debugging-address=0.0.0.0 \
+  --remote-debugging-address=127.0.0.1 \
   --remote-debugging-port="$RD_PORT" \
   --user-data-dir=/home/chrome/ \
   --window-size=1920,1080 \
