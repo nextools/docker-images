@@ -41,7 +41,7 @@ socat tcp-listen:$RD_PORT,bind="$ip",fork tcp:127.0.0.1:$RD_PORT &
   --disable-hang-monitor \
   --disable-ipc-flooding-protection \
   --disable-component-update \
-  --headless=new \
+  --headless=old \
   --export-tagged-pdf \
   --force-color-profile=srgb \
   --no-zygote \
