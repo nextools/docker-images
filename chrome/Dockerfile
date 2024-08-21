@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:bionic
 
 ARG VERSION
 ARG DEBIAN_FRONTEND=noninteractive

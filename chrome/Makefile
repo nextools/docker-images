@@ -1,7 +1,7 @@
 .PHONY: get-version build test tags
 
 CURRENT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-VERSION:="122.0.6261.111-1"
+VERSION:="127.0.6533.88-1"
 
 # get-version:
 # 	@docker pull ubuntu:bionic > /dev/null 2>&1
