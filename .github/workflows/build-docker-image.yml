@@ -23,12 +23,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Configure AWS credentials
+
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Get version
         id: get_version
@@ -42,9 +46,6 @@ jobs:
 
       - name: Push image to Docker
         run: docker push neuralegion/nextools-${{ matrix.package }}
-
-      - name: Login in ECR
-        run: eval $(aws ecr get-login --no-include-email)
 
       - name: Push Docker image to AWS ECR
         run: docker push 454884832027.dkr.ecr.us-east-1.amazonaws.com/nextools-${{ matrix.package }}
